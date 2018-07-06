@@ -1,0 +1,37 @@
+# Datasource-Config
+spring.datasource:
+  driver-class-name: org.postgresql.Driver
+
+  # System specific DB settings
+  url: jdbc:postgresql://localhost:5432/test
+  username: test
+  password: test
+  hikari:
+    maximum-pool-size: 80
+    minimum-idle: 10
+
+# JPA-Config
+spring.jpa:
+# For development phase, use false later
+  show-sql: true
+
+  # Fulltext-Indexing Support for PostgreSQL
+  properties.hibernate.dialect: org.hibernate.dialect.PostgreSQL92Dialect
+
+  # CLOB-Fehlermeldung umgehen (https://vkuzel.com/spring-boot-jpa-hibernate-atomikos-postgresql-exception)
+  properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
+  # Hibernate-Cache
+  properties.hibernate.cache.use_second_level_cache: true
+  properties.javax.persistence.sharedCache.mode: ENABLE_SELECTIVE
+  properties.hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+
+  # Gibernate DDL-Validierung
+  # Set this to "update" if you don't want your data to be grilled during development
+  hibernate.ddl-auto: create
+
+  # Bean Validation - wir wollen lieber vorher schon validiert haben ...
+  properties.javax.persistence.validation.mode: none
+
+  # Explizit zugreifen auf JPA-Session aus der View-Chicht erlauben (impliziter Default seit Spring Boot 2)
+  open-in-view: true

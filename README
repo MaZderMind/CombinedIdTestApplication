@@ -1,0 +1,26 @@
+# Run
+
+docker run --rm --publish=5432:5432 --env POSTGRES_USER=test --env POSTGRES_PASSWORD=test --name test postgres:latest
+PAGER="less" LESS="-iMSx4 -FX" PGPASSWORD=test psql -h 127.0.0.1 -p 5432 test test
+
+psql (10.3, server 10.4 (Debian 10.4-2.pgdg90+1))
+Type "help" for help.
+
+test=# select * from users;
+ type |                  id                  |         created         | created_by | enabled | password  |        modified         | modified_by |    username
+------+--------------------------------------+-------------------------+------------+---------+-----------+-------------------------+-------------+----------------
+ User | e038f300-cc74-4063-9320-27648651de82 | 2018-07-06 22:19:17.962 |            | t       | hashed-pw | 2018-07-06 22:19:17.962 |             | my-username
+ User | 34d7fd74-5e4d-4788-ab4b-4df56acd29c4 | 2018-07-06 22:19:18.009 |            | t       | hashed-pw | 2018-07-06 22:19:18.009 |             | other-username
+(2 rows)
+
+test=# select * from user_authorities;
+ authority |               user_id
+-----------+--------------------------------------
+ foo       | e038f300-cc74-4063-9320-27648651de82
+ bar       | e038f300-cc74-4063-9320-27648651de82
+ moo       | 34d7fd74-5e4d-4788-ab4b-4df56acd29c4
+ zoo       | 34d7fd74-5e4d-4788-ab4b-4df56acd29c4
+ qoo       | 34d7fd74-5e4d-4788-ab4b-4df56acd29c4
+(5 rows)
+
+test=#
